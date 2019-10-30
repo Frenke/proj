@@ -1,0 +1,14 @@
+<div th:fragment="user">
+    <h1 th:text="${username}"></h1>
+
+    <div sec:authorize="hasAuthority('ADMIN')">
+        <p>Sono admin</p>
+    </div>
+
+    <div sec:authorize="hasAuthority('USER')">
+        <p>Sono user</p>
+    </div>
+    <div sec:authorize="isAuthenticated()">
+        <a  href="/logout">Logout</a>
+    </div>
+</div>
