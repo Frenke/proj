@@ -17,7 +17,7 @@ public class UserController{
 
         if(principal != null){
             System.out.println("AUTHENR");
-            model.addObject("username", principal);
+            model.addObject("username", principal.getName());
             model.addObject("isLogged", true);
             model.setViewName("index");
             return model;
