@@ -18,7 +18,7 @@ import javax.validation.constraints.NotEmpty;
 public class User{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_user")
     int idUser;
 
@@ -46,5 +46,45 @@ public class User{
         this.password = password;
     }
 
+    /**
+     * @return the idUser
+     */
+    public int getIdUser() {
+        return idUser;
+    }
 
+    /**
+     * @param idUser the idUser to set
+     */
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
+    }
+
+    /**
+     * @return the username
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * @param username the username to set
+     */
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    /**
+     * @return the ruoli
+     */
+    public Set<Role> getRuoli() {
+        return ruoli;
+    }
+
+    /**
+     * @param ruoli the ruoli to set
+     */
+    public void setRuoli(Set<Role> ruoli) {
+        this.ruoli = ruoli;
+    }
 }

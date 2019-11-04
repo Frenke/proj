@@ -2,7 +2,7 @@
     <h1 th:text="${username}"></h1>
 
     <div sec:authorize="hasAuthority('ADMIN')">
-        <p>Sono admin</p>
+        <a href="/admin/admin-home">Admin Home</a>
     </div>
 
     <div sec:authorize="hasAuthority('USER')">

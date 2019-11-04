@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en"
+xmlns="http://www.w3.org/1999/xhtml" 
+xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+<body>
+    <div th:replace="navbar :: navbar"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <!--Form aggiungi user-->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="text-center">Crea nuovo User:</h5>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/admin/add-user}" th:object="${user}" method="POST">
+                            <div class="form-group">
+                                <label for="username">Username: </label>
+                                <input type="text" th:field="*{username}" placeholder="Username" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password: </label>
+                                <input type="password" th:field="*{password}" class="form-control">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Crea user</button>
+                        </form>
+                    </div>
+                </div>
+                <!--fine Form add user-->
+            </div>
+            <div class="col-sm">
+                <!--Inizio form add prof-->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="text-center">Aggiungi professore:</h5>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/admin/add-professor}" th:object="${prof}" method="POST">
+                            <div class="form-group">
+                                <label for="nome">Nome:</label>
+                                <input type="text" th:field="*{nome}" placeholder="Nome" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="cognome">Cognome:</label>
+                                <input type="text" th:field="*{cognome}" placeholder="Cognome" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="mail">E-Mail:</label>
+                                <input type="email" th:field="*{mail}" placeholder="email@ex.com" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="telefono">Tel:</label>
+                                <input type="tel" th:field="*{telefono}" placeholder="125656" class="form-control">
+                            </div>
+                            <div class="from-group">
+                                <label for="web">Sito web:</label>
+                                <input type="url" th:field="*{web}" placeholder="site.it" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" th:field="*{qualifica}" placeholder="qualifica">
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">Crea professore</button>
+                        </form>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="col-sm">
+                One of three columns
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
