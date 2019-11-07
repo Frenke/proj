@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"
+<html lang="it"
 xmlns="http://www.w3.org/1999/xhtml" 
 xmlns:th="http://www.thymeleaf.org"
 xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
@@ -11,9 +11,28 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 </head>
 <body>
         <div th:fragment="navbar">
-                <nav class="navbar navbar-light bg-light">
-                    <a class="navbar-brand" href="/login">Navbar</a>
+                <nav class="navbar navbar-dark navbar-expand-lg bg-dark">
+                    <a class="navbar-brand" href="/index">Home</a>
+                    <!--Bottone per menu con schermi piccoli-->
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navDropdown" aria-controls="navDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <!--fine button-->
+                    <div class="collapse navbar-collapse" id="navDropdown">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/docenti">Docenti</a>
+                            </li>
+                            <li class="nav-item">
+                                <span sec:authorize="!isAuthenticated()"><a class="nav-item nav-link" href="/login">Login</a></span>
+                            </li>
+                            <li class="nav-item">
+                                <span sec:authorize="isAuthenticated()"><a class="nav-item nav-link" href="/logout">Logout</a></span>
+                            </li>          
+                        </ul>
+                    </div>
                 </nav>
+                
             </div>       
     
 </body>

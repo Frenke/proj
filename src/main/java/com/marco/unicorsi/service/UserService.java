@@ -31,5 +31,11 @@ public class UserService{
         userRepo.save(user);
     }
 
-    
+    public void saveAdmin(User user){
+        user.setPassword(encoder.encode(user.getPassword()));
+        user.setRuoli(new HashSet<Role>(Arrays.asList(roleRepo.getByRole("USER"), roleRepo.getByRole("ADMIN"))));
+        userRepo.save(user);
+    }
+
+
 }

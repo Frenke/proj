@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
 
 
@@ -27,6 +28,10 @@ public class User{
 
     @NotEmpty
     String password;
+
+    @OneToOne
+    @JoinColumn(name = "id_docente", referencedColumnName = "id_prof")
+    Professore docente;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "role_user", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_role"))
@@ -87,4 +92,19 @@ public class User{
     public void setRuoli(Set<Role> ruoli) {
         this.ruoli = ruoli;
     }
+
+    /**
+     * @return the docente
+     */
+    public Professore getDocente() {
+        return docente;
+    }
+
+    /**
+     * @param docente the docente to set
+     */
+    public void setDocente(Professore docente) {
+        this.docente = docente;
+    }
+
 }

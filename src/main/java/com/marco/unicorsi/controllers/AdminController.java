@@ -30,20 +30,43 @@ public class AdminController{
     @GetMapping(value = "/admin-home")
     public ModelAndView getHome(Principal principal){
         ModelAndView mView = new ModelAndView("/admin/admin-home");
-        mView.addObject("user", new User());
+        //mView.addObject("isAdmin", false);
+        //mView.addObject("user", new User());
+        //mView.addObject("prof", new Professore());
+        mView.addObject("opOk", false);
+        return mView;
+    }
+
+    @GetMapping(value = "/add-user")
+    public ModelAndView getAddUser(){
+        ModelAndView mViewAddUser = new ModelAndView("/admin/add-user");
+        mViewAddUser.addObject("user", new User());
+        return mViewAddUser;
+    }
+
+    //Chiamato quando si invia il form dalla pagina add user
+    @PostMapping(value = "/add-user")
+    public ModelAndView addUser(@ModelAttribute User user){
+        userSrvc.saveUser(user);
+        ModelAndView mView = new ModelAndView("/admin/admin-home");
+        mView.addObject("opOk", true);
+        mView.addObject("resMsg", "Utente creato con successo");
+        return mView;
+    }
+
+    @GetMapping(value = "/add-docente")
+    public ModelAndView getAddDocente(){
+        ModelAndView mView = new ModelAndView("/admin/add-docente");
         mView.addObject("prof", new Professore());
         return mView;
     }
 
-    @PostMapping(value = "/add-user")
-    public String addUser(@ModelAttribute User user){
-        userSrvc.saveUser(user);
-        return "admin/admin-home";
-    }
-
-    @PostMapping(value = "/add-professor")
-    public String addProfessor(@ModelAttribute Professore professore){
+    @PostMapping(value = "/add-docente")
+    public ModelAndView addDocente(@ModelAttribute Professore professore){
         profRepo.save(professore);
-        return "admin/admin-home";
+        ModelAndView mView = new ModelAndView("/admin/admin-home");
+        mView.addObject("opOk", true);
+        mView.addObject("resMsg", "Docente creato con successo");
+        return mView;
     }
 }
