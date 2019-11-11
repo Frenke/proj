@@ -6,7 +6,7 @@
     </div>
 
     <div sec:authorize="hasAuthority('USER')">
-        <p>Sono user</p>
+        <a href="/user/user-home">User Home</a>
     </div>
     <div sec:authorize="isAuthenticated()">
         <a  href="/logout">Logout</a>

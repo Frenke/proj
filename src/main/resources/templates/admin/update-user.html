@@ -9,7 +9,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <title>Aggiungi Utente</title>
+    <title>Modifica Utente</title>
 </head>
 <body>
 
@@ -23,7 +23,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                             <h5 class="text-center">Crea nuovo User:</h5>
                         </div>
                         <div class="card-body">
-                            <form th:action="@{/admin/add-user}" th:object="${user}" method="POST">
+                            <form th:action="@{/admin/update-user}" th:object="${user}" method="POST">
+                                <input type="hidden" th:field="*{idUser}">
                                 <div class="form-group">
                                     <label for="username">Username: </label>
                                     <input type="text" th:field="*{username}" placeholder="Username" class="form-control">

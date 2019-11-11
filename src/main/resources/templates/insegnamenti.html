@@ -16,22 +16,22 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
         <table class="table table-striped table-responsive">
             <thead class="thead-dark">
                 <tr>
+                    <th>Codice</th>
                     <th>Nome</th>
-                    <th>Cognome</th>
-                    <th>Qualifica</th>
-                    <th>Studio</th>
-                    <th>Telefono</th>
-                    <th>Mail</th>
+                    <th>Settore</th>
+                    <th>Semestre</th>
+                    <th>Crediti</th>
+                    <th>Docente/i</th>
                 </tr>
             </thead>
             <tbody>
-                <tr th:each=" docente : ${docenti}">
-                    <td th:text="${docente.nome}"></td>
-                    <td th:text="${docente.cognome}"></td>
-                    <td th:text="${docente.qualifica}"></td>
-                    <td th:text="${docente.studio}"></td>
-                    <td th:text="${docente.telefono}"></td>
-                    <td><a th:href="'mailto:'+${docente.mail}">Mail</a></td>
+                <tr th:each=" ins : ${insegnamenti}">
+                    <td th:text="${ins.codice}"></td>
+                    <td th:text="${ins.nome}"></td>
+                    <td th:text="${ins.settore}"></td>
+                    <td th:text="${ins.semestre}"></td>
+                    <td th:text="${ins.crediti}"></td>
+                    <td> TBD </td>
                 </tr>
             </tbody>
         </table>

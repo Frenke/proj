@@ -11,7 +11,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <title>Admin Home</title>
 </head>
 <body>
-    <div th:replace="navbar :: navbar"></div>
+    <div th:replace="fragments/navbar :: navbar"></div>
     <div class="container">
         <div th:if="${opOk}" class="row">
             <div class="col-sm">
@@ -25,10 +25,10 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                 <a href="/admin/add-user" class="btn btn-block btn-lg btn-primary"><span class="glyphicon glyphicon-plus-sign"></span> AGGIUNGI USER</a>
             </div>
             <div class="col-sm">
-                <a href="/admin/add-user" class="btn btn-block btn-lg btn-primary"><span class="glyphicon glyphicon-plus-sign"></span> AGGIUNGI DOCENTE</a> 
+                <a href="/admin/add-docente" class="btn btn-block btn-lg btn-primary"><span class="glyphicon glyphicon-plus-sign"></span> AGGIUNGI DOCENTE</a> 
             </div>
             <div class="col-sm">
-                One of three columns
+                <a href="/admin/add-insegnamento" class="btn btn-block btn-lg btn-primary"><span class="glyphicon glyphicon-plus-sign"></span> AGGIUNGI INSEGNAMENTO</a> 
             </div>
         </div>
     </div>

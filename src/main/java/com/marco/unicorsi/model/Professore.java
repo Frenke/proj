@@ -1,10 +1,15 @@
 package com.marco.unicorsi.model;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotEmpty;
 
 @Entity(name = "professori")
@@ -28,6 +33,14 @@ public class Professore{
     String studio;
     String web;
     String qualifica;
+
+    @ManyToMany
+    @JoinTable(
+        name = "docente_corso",
+        joinColumns = @JoinColumn(name="id_prof"),
+        inverseJoinColumns = @JoinColumn(name="id_corso"))
+    Set<Corso> corsi;
+    
 
     /**
      * @return the id
@@ -139,6 +152,20 @@ public class Professore{
      */
     public void setWeb(String web) {
         this.web = web;
+    }
+
+    /**
+     * @return the corsi
+     */
+    public Set<Corso> getCorsi() {
+        return corsi;
+    }
+
+    /**
+     * @param corsi the corsi to set
+     */
+    public void setCorsi(Set<Corso> corsi) {
+        this.corsi = corsi;
     }
 
 }
