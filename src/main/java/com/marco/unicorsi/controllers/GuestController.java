@@ -23,6 +23,12 @@ public class GuestController{
     @Autowired
     CorsoRepo corsoRepo;
 
+    @RequestMapping({"/", "/index"})
+    public ModelAndView getIndex(){
+        ModelAndView mvView = new ModelAndView("index");
+        return mvView;
+    }
+
     @RequestMapping("/docenti")
     public ModelAndView getDocenti(){
         ModelAndView mViewDocenti = new ModelAndView("docenti");

@@ -16,9 +16,44 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                 <div class="col">
                     <div class="card">
                         <div class="card-header">
+                            <h6>Lezioni:</h6>
+                            <div sec:authorize="hasAuthority('USER')">
+                                    <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                    Aggiungi lezione
+                                </button> 
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div th:each=" lez : ${corso.lezioni}">
+                                <span th:text="${lez.data}"></span>
+                                <p th:text="${lez.descrizione}"></p>
+                                <form th:action="@{/user/delete-lesson}" method="POST">
+                                    <input type="hidden" th:name="codice" th:value="${corso.insegnamento.codice}">
+                                    <input type="hidden" th:name="anno" th:value="${corso.annoAccademico}">
+                                    <input type="hidden" th:name="idLezione" th:value="${lez.id}">
+                                    <button type="submit">Cancella</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <div class="card-header">
                             <h6>Informazioni</h6>
                         </div>
                         <div class="card-body">
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td>Settore: </td>
+                                    <td th:text="${corso.insegnamento.settore}"></td>
+                                </tr>
+                                <tr>
+                                    <td>Semestre:</td>
+                                    <td th:text="${corso.insegnamento.semestre}"></td>
+                                </tr>
+                            </table>
                             <span th:text="${corso.insegnamento.nome}"></span>
                         </div>
                     </div>

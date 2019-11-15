@@ -1,5 +1,6 @@
 package com.marco.unicorsi.model;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -10,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
@@ -38,6 +41,10 @@ public class Corso{
 
     @ManyToMany(mappedBy = "corsi")
     Set<Professore> titolari;
+
+    @OneToMany(mappedBy = "corso", orphanRemoval = true)
+    @OrderBy("data DESC") //Con questa annotazione si ottengono le lezioni dalla più recente alla più lontana
+    List<Lezione> lezioni;
 
     public Corso(){}
 
@@ -111,5 +118,32 @@ public class Corso{
         this.modEsame = modEsame;
     }
 
+    /**
+     * @return the titolari
+     */
+    public Set<Professore> getTitolari() {
+        return titolari;
+    }
+    
+    /**
+     * @param titolari the titolari to set
+     */
+    public void setTitolari(Set<Professore> titolari) {
+        this.titolari = titolari;
+    }
+
+    /**
+     * @return the lezioni
+     */
+    public List<Lezione> getLezioni() {
+        return lezioni;
+    }
+    
+    /**
+     * @param lezioni the lezioni to set
+     */
+    public void setLezioni(List<Lezione> lezioni) {
+        this.lezioni = lezioni;
+    }
 
 }

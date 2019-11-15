@@ -3,14 +3,16 @@ package com.marco.unicorsi.model;
 import java.sql.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class Lezione{
+public class Lezione {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,8 +24,15 @@ public class Lezione{
     @NotNull
     private Date data;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_corso")
     private Corso corso;
+
+    public Lezione(){}
+
+    public Lezione(Corso corso){
+        this.corso = corso;
+    }
 
     /**
      * @return the id
@@ -81,6 +90,5 @@ public class Lezione{
     public void setDescrizione(String descrizione) {
         this.descrizione = descrizione;
     }
-
 
 }
