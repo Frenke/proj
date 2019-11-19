@@ -14,42 +14,48 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
     <div th:replace="fragments/navbar :: navbar"></div>
         <div class="container">
-            <div class="row">
+            <!--<div class="row">
+                <form th:action="@{/docenti}" method="GET" th:field="*{anno}">
+                    <select name="anno" class="form-control">
+                        <option th:value="2019/2020">2019/2020</option>
+                    </select>
+                </form> 
                 
-                
-            </div>
+            </div> -->
             <div class="row">
-                <table class="table table-striped table-responsive">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>Nome</th>
-                            <th>Cognome</th>
-                            <th>Qualifica</th>
-                            <th>Studio</th>
-                            <th>Telefono</th>
-                            <th>Mail</th>
-                            <th>Corso/i</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each=" docente : ${docenti}">
-                            <td th:text="${docente.nome}"></td>
-                            <td th:text="${docente.cognome}"></td>
-                            <td th:text="${docente.qualifica}"></td>
-                            <td th:text="${docente.studio}"></td>
-                            <td th:text="${docente.telefono}"></td>
-                            <td><a th:href="'mailto:'+${docente.mail}">Mail</a></td>
-                            <td>
-                                <div th:each=" corso : ${docente.corsi}">
-                                    <a th:href="@{/corso(codice=${corso.insegnamento.codice}, anno='2019/2020')}">
-                                        <span th:text="${corso.insegnamento.nome}"></span>
-                                    </a>
-                                </div>
-                            </td>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Nome</th>
+                                <th>Cognome</th>
+                                <th>Qualifica</th>
+                                <th>Studio</th>
+                                <th>Telefono</th>
+                                <th>Mail</th>
+                                <th>Corso/i</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each=" docente : ${docenti}">
+                                <td th:text="${docente.nome}"></td>
+                                <td th:text="${docente.cognome}"></td>
+                                <td th:text="${docente.qualifica}"></td>
+                                <td th:text="${docente.studio}"></td>
+                                <td th:text="${docente.telefono}"></td>
+                                <td><a th:href="'mailto:'+${docente.mail}">Mail</a></td>
+                                <td>
+                                    <div th:each=" corso : ${docente.corsi}">
+                                        <a th:href="@{/corso(codice=${corso.insegnamento.codice}, anno='2019/2020')}">
+                                            <span th:text="${corso.insegnamento.nome}"></span>
+                                        </a>
+                                    </div>
+                                </td>
 
-                        </tr>
-                    </tbody>
-                </table>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 

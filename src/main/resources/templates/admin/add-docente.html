@@ -16,43 +16,48 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <div th:replace="fragments/navbar::navbar"></div>
 
     <div class="container">
-        <div class="col-sm">
-        <!--Inizio form add prof-->
-        <div class="card">
-                <div class="card-header">
-                    <h5 class="text-center">Aggiungi docente:</h5>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-sm col-md-6">
+            <!--Inizio form add prof-->
+            <div class="card">
+                    <div class="card-header">
+                        <h5 class="text-center">Aggiungi docente:</h5>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/admin/add-docente}" th:object="${prof}" method="POST">
+                            <div class="form-group">
+                                <label for="nome">Nome:</label>
+                                <input type="text" th:field="*{nome}" placeholder="Nome" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="cognome">Cognome:</label>
+                                <input type="text" th:field="*{cognome}" placeholder="Cognome" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="mail">E-Mail:</label>
+                                <input type="email" th:field="*{mail}" placeholder="email@ex.com" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="telefono">Tel:</label>
+                                <input type="tel" th:field="*{telefono}" placeholder="125656" class="form-control">
+                            </div>
+                            <div class="from-group">
+                                <label for="web">Sito web:</label>
+                                <input type="url" th:field="*{web}" placeholder="site.it" class="form-control">
+                            </div>
+                            <div class="form-group">    
+                                <label for="qualifica"></label>
+                                <input type="text" class="form-control" th:field="*{qualifica}" placeholder="qualifica">
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">Crea docente</button>
+                        </form>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <form th:action="@{/admin/add-docente}" th:object="${prof}" method="POST">
-                        <div class="form-group">
-                            <label for="nome">Nome:</label>
-                            <input type="text" th:field="*{nome}" placeholder="Nome" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="cognome">Cognome:</label>
-                            <input type="text" th:field="*{cognome}" placeholder="Cognome" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="mail">E-Mail:</label>
-                            <input type="email" th:field="*{mail}" placeholder="email@ex.com" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="telefono">Tel:</label>
-                            <input type="tel" th:field="*{telefono}" placeholder="125656" class="form-control">
-                        </div>
-                        <div class="from-group">
-                            <label for="web">Sito web:</label>
-                            <input type="url" th:field="*{web}" placeholder="site.it" class="form-control">
-                        </div>
-                        <div class="form-group">    
-                            <label for="qualifica"></label>
-                            <input type="text" class="form-control" th:field="*{qualifica}" placeholder="qualifica">
-                        </div>
-                        
-                        <button type="submit" class="btn btn-primary">Crea docente</button>
-                    </form>
-                </div>
+                <!--Fine form-->
             </div>
+            <div class="col-md-3"></div>
         </div>
     </div>
     
