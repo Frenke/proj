@@ -1,0 +1,4 @@
+/* Senza il contenuto del body finisce in parte sotto la navbar */
+body{
+    padding-top: 70px;
+}

@@ -11,7 +11,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 </head>
 <body>
         <div th:fragment="navbar">
-                <nav class="navbar navbar-dark navbar-expand-lg bg-dark">
+            <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-dark">
+                <div class="container">
                     <a class="navbar-brand" href="/index">Home</a>
                     <!--Bottone per menu con schermi piccoli-->
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navDropdown" aria-controls="navDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,9 +38,9 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                             </li>          
                         </ul>
                     </div>
-                </nav>
-                
-            </div>       
+                </div>
+            </nav> 
+        </div>       
     
 </body>
 </html>

@@ -40,7 +40,9 @@ public class UserController{
 
     @GetMapping(value={"/index","/"} )
     public ModelAndView getUsers(Principal principal) {
-
+        //L'oggetto va instanziato nei metodi, infatti di ogni classe vi è una singola istanza
+        //mentre ad ogni richiesta si crea un thread, se fosse globale per la classe ci
+        //sarebbero problemi di concorrenza 
         ModelAndView model = new ModelAndView();
 
         if(principal != null){
@@ -56,7 +58,7 @@ public class UserController{
     }
 
     @GetMapping(value="/user-home")
-    public ModelAndView getMethodName(Principal principal) {
+    public ModelAndView getUserHome(Principal principal) {
         ModelAndView mView = new ModelAndView();
         mView.setViewName("/user/user-home");
         Professore pr = userRepo.findByUsername(principal.getName()).getDocente();
