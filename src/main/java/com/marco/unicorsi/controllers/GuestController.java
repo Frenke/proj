@@ -37,9 +37,9 @@ public class GuestController{
     }
 
     @RequestMapping("/insegnamenti")
-    public ModelAndView getInsegnamenti(){
+    public ModelAndView getInsegnamenti(@RequestParam String anno){
         ModelAndView mViewIns = new ModelAndView("insegnamenti");
-        mViewIns.addObject("insegnamenti", insRepo.findAll());
+        mViewIns.addObject("insegnamenti", insRepo.getInsByAnno(anno));
         return mViewIns;
     }
 

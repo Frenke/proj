@@ -28,7 +28,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                                 <a href="/corso?codice=BDA&anno=2019/2020" class="nav-link">BDA</a>
                             </li>
                             <li class="nav-item">
-                                <a href="/insegnamenti" class="nav-link">Materie</a>
+                                <a th:href="@{/insegnamenti(anno='2019/2020')}" class="nav-link">Materie</a>
                             </li>
                             <li class="nav-item">
                                 <span sec:authorize="!isAuthenticated()"><a class="nav-item nav-link" href="/login">Login</a></span>

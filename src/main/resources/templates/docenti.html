@@ -14,14 +14,6 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
     <div th:replace="fragments/navbar :: navbar"></div>
         <div class="container">
-            <!--<div class="row">
-                <form th:action="@{/docenti}" method="GET" th:field="*{anno}">
-                    <select name="anno" class="form-control">
-                        <option th:value="2019/2020">2019/2020</option>
-                    </select>
-                </form> 
-                
-            </div> -->
             <div class="row">
                 <div class="table-responsive">
                     <table class="table table-striped">
@@ -45,11 +37,11 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                                 <td th:text="${docente.telefono}"></td>
                                 <td><a th:href="'mailto:'+${docente.mail}">Mail</a></td>
                                 <td>
-                                    <div th:each=" corso : ${docente.corsi}">
+                                    <span th:each=" corso : ${docente.corsi}">
                                         <a th:href="@{/corso(codice=${corso.insegnamento.codice}, anno='2019/2020')}">
                                             <span th:text="${corso.insegnamento.nome}"></span>
                                         </a>
-                                    </div>
+                                    </span>
                                 </td>
 
                             </tr>
