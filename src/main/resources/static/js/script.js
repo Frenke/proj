@@ -9,5 +9,5 @@ function searchDoc() {
     var cognome = document.getElementById("cognome").value;
     var id = document.getElementById("idUser").value;
     req.open('GET', "/admin/search-docente?cognome=" + cognome + "&idUser=" + id);
-    req.send();
+    req.send();    
 }

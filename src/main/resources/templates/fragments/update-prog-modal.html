@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+    <div class="container" th:fragment="modalProg(corso)">
+        <div class="modal fade" id="modalProg" tabindex="-1" role="dialog" aria-labelledby="modalProgLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalProgLabel">Modifica programma</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form th:action="@{/user/update-prog}" th:object="${corso}" method="post">
+                        <div class="modal-body">
+                            <span id="count"></span>
+                            <div class="form-group">
+                                <textarea class="form-control long-text-area" th:field="*{programma}"
+                                    maxlength="1022" rows="10"></textarea>
+                                    <input type="hidden" th:field="*{idCorso}">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

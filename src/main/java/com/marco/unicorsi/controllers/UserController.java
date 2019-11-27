@@ -21,9 +21,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
-
-
 @Controller
 @RequestMapping(path = "/user")
 @PreAuthorize("hasAuthority('USER')")
@@ -97,6 +94,21 @@ public class UserController{
         redirectAttributes.addAttribute("codice", codice);
         redirectAttributes.addAttribute("anno", anno);
         lessonRepo.deleteById(idLezione);
+        return "redirect:/user/update-corso";
+    }
+
+    @PostMapping(value = "/update-prog")
+    public String updateProg(@RequestParam String programma, @RequestParam int idCorso, RedirectAttributes rAttributes){
+        try {
+            //L'oggetto corso non viene passato nella chiamata, occorre ritrovarlo nel db per salvarlo
+            Corso corso = corsoRepo.findById(idCorso).get();
+            corso.setProgramma(programma);
+            rAttributes.addAttribute("codice", corso.getInsegnamento().getCodice());
+            rAttributes.addAttribute("anno", corso.getAnnoAccademico());
+            corsoRepo.save(corso);
+        } catch(Exception e) {
+            return "/error";
+        }
         return "redirect:/user/update-corso";
     }
     
