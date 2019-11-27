@@ -1,6 +1,5 @@
 <div th:fragment="user">
-    <h1 th:text="${username}"></h1>
-
+    
     <div sec:authorize="hasAuthority('ADMIN')">
         <a href="/admin/admin-home">Admin Home</a>
     </div>

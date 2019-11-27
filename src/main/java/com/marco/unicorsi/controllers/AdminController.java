@@ -13,6 +13,7 @@ import com.marco.unicorsi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,6 +47,7 @@ public class AdminController{
         //mView.addObject("user", new User());
         //mView.addObject("prof", new Professore());
         mView.addObject("opOk", false);
+        mView.addObject("opError", false);
         return mView;
     }
 
@@ -114,4 +116,42 @@ public class AdminController{
         return mViewGlobal;
     }
 
+    @GetMapping(value = "/search-user")
+    public ModelAndView searchUser(@RequestParam(required = false) String username){
+        ModelAndView mView = new ModelAndView("/admin/admin-home");
+        mView.addObject("searchRes", userRepo.findByUsernameContains(username));
+        return mView;
+    }
+
+    @GetMapping(value = "/user-docente")
+    public ModelAndView getUserDocente(@RequestParam int idUser){
+        ModelAndView mView = new ModelAndView("/admin/user-docente");
+        mView.addObject("user", userRepo.findById(idUser).get());
+        return mView;
+    }
+
+    @GetMapping(value = "/search-docente")
+    public String getDocenti(Model model, @RequestParam String cognome, @RequestParam int idUser){
+        //ModelAndView mView = new ModelAndView("/admin/user-docente");
+        model.addAttribute("searchRes", profRepo.findByCognomeContains(cognome));
+        model.addAttribute("idUser", idUser);
+        return "/fragments/docenti-search-res :: resList";
+    }
+
+    @PostMapping(value = "/assegna-docente")
+    public ModelAndView assegnaDocentePost(@RequestParam int idDoc, @RequestParam int idUser){
+        ModelAndView mView = new ModelAndView("/admin/admin-home");
+        try{
+            Professore doc = profRepo.findById(idDoc).get();
+            User user = userRepo.findById(idUser).get();
+            user.setDocente(doc);
+            userRepo.save(user);
+            mView.addObject("opOk", true);
+            mView.addObject("resMsg", "Assegnato con successo!");
+        } catch(Exception e) {
+            mView.addObject("opError", true);
+            mView.addObject("errMsg", "Errore! " + e.getMessage());
+        }
+        return mView;
+    }
 }

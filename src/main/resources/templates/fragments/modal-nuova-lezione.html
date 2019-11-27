@@ -20,9 +20,9 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                         <label for="data">Data:</label>
                         <input type="date" th:field="*{data}" class="form-control">
                     </div>
+                    <span id="count"></span>
                     <div class="form-group">
-                        <label for="descrizione">Descrizione:</label>
-                        <textarea th:field="*{descrizione}" cols="30" rows="10"></textarea>
+                        <textarea class="form-control long-text-area" th:field="*{descrizione}" maxlength="1024" rows="10"></textarea>
                     </div>
                     <input type="hidden" th:field="*{corso}">
             </div>

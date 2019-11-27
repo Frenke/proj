@@ -2,3 +2,11 @@
 body{
     padding-top: 70px;
 }
+
+.row{
+    margin-bottom: 1rem;
+}
+
+.long-text-area{
+    min-width: 100%;
+}

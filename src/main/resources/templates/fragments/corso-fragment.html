@@ -13,6 +13,23 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <div th:fragment="corso">
         <div class="container">
             <div class="row">
+                <div class="col text-center">
+                    <h2 th:text="${corso.insegnamento.nome}"></h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6>Comunicazioni</h6>
+                        </div>
+                        <div class="card-body">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col">
                     <div class="card">
                         <div class="card-header">
@@ -32,6 +49,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                         </div>
                         <div class="card-body">
                             <div th:each=" lez : ${corso.lezioni}">
+                                <hr>
                                 <div class="container-fluid">
                                     <div class="row">
                                     <div class="col-6">
@@ -49,7 +67,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                                     </div>
                                     </div>
                                 </div>   
-                                <p th:text="${lez.descrizione}"></p>                             
+                                <p th:text="${lez.descrizione}"></p>                        
                             </div>
                         </div>
                     </div>
@@ -69,8 +87,15 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                                     <td>Semestre:</td>
                                     <td th:text="${corso.insegnamento.semestre}"></td>
                                 </tr>
+                                <tr>
+                                    <td>Crediti:</td>
+                                    <td th:text="${corso.insegnamento.crediti}"></td>
+                                </tr>
+                                <tr>
+                                    <td>Anno:</td>
+                                    <td th:text="${corso.insegnamento.anno}"></td>
+                                </tr>
                             </table>
-                            <span th:text="${corso.insegnamento.nome}"></span>
                         </div>
                     </div>
 

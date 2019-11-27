@@ -31,10 +31,14 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                                 <a th:href="@{/insegnamenti(anno='2019/2020')}" class="nav-link">Materie</a>
                             </li>
                             <li class="nav-item">
-                                <span sec:authorize="!isAuthenticated()"><a class="nav-item nav-link" href="/login">Login</a></span>
+                                <a sec:authorize="hasAuthority('USER') and !hasAuthority('ADMIN')" class="nav-item nav-link" href="/user/user-home">Personal Home</a>
+                                <a sec:authorize="hasAuthority('ADMIN')" class="nav-item nav-link" href="/admin/admin-home">Admin Home</a>
                             </li>
                             <li class="nav-item">
-                                <span sec:authorize="isAuthenticated()"><a class="nav-item nav-link" href="/logout">Logout</a></span>
+                                <a sec:authorize="!isAuthenticated()" class="nav-item nav-link" href="/login">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a sec:authorize="isAuthenticated()" class="nav-item nav-link" href="/logout">Logout</a>
                             </li>          
                         </ul>
                     </div>
