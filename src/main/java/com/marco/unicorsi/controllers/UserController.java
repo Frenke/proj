@@ -41,25 +41,6 @@ public class UserController{
     @Autowired
     ComunicationRepo comRepo;
 
-    @GetMapping(value={"/index","/"} )
-    public ModelAndView getUsers(Principal principal) {
-        //L'oggetto va instanziato nei metodi, infatti di ogni classe vi è una singola istanza
-        //mentre ad ogni richiesta si crea un thread, se fosse globale per la classe ci
-        //sarebbero problemi di concorrenza 
-        ModelAndView model = new ModelAndView();
-
-        if(principal != null){
-            System.out.println("AUTHENR");
-            model.addObject("username", principal.getName());
-            model.addObject("isLogged", true);
-            model.setViewName("index");
-            return model;
-        }
-        model.addObject("isLogged", false);
-        model.setViewName("index");
-        return model;
-    }//TODO rivedere metodo
-
     @GetMapping(value="/user-home")
     public String getUserHome(Principal principal, Model model) {
         Professore pr = userRepo.findByUsername(principal.getName()).getDocente();
@@ -72,20 +53,18 @@ public class UserController{
     }
 
     @GetMapping(value="/update-corso")
-    public ModelAndView getUpdateCorso(@RequestParam String codice, @RequestParam String anno, Principal principal) {
-        ModelAndView mView = new ModelAndView();
+    public String getUpdateCorso(@RequestParam String codice, @RequestParam String anno, Principal principal, Model model) {
         //La modifica del corso è consentita solo all'utente titolare del corso
         Corso corso = corsoRepo.findByInsegnamentoAndAnnoAccademico(codice, anno);
         //User user = userRepo.findByUsername(principal.getName());
         if(isOwner(principal, corso)){
-            mView.setViewName("/user/update-corso");
-            mView.addObject("newLez", new Lezione(corso));
-            mView.addObject("newCom", new Comunicazione(corso));
-            mView.addObject("corso", corso);
+            model.addAttribute("newLez", new Lezione(corso));
+            model.addAttribute("newCom", new Comunicazione(corso));
+            model.addAttribute("corso", corso);
         } else {
-            mView.setViewName("/error");
+            return "/error";
         }
-        return mView;
+        return "/user/update-corso";
     }
 
     @PostMapping(value = "/add-lezione")
