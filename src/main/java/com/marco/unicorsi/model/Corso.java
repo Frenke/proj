@@ -46,6 +46,10 @@ public class Corso{
     @OrderBy("data DESC") //Con questa annotazione si ottengono le lezioni dalla più recente alla più lontana
     List<Lezione> lezioni;
 
+    @OneToMany(mappedBy = "corso", orphanRemoval = true)
+    @OrderBy("data_ora DESC")
+    List<Comunicazione> comunicazioni;
+
     public Corso(){}
 
     /**
@@ -144,6 +148,20 @@ public class Corso{
      */
     public void setLezioni(List<Lezione> lezioni) {
         this.lezioni = lezioni;
+    }
+
+    /**
+     * @return the comunicazioni
+     */
+    public List<Comunicazione> getComunicazioni() {
+        return comunicazioni;
+    }
+
+    /**
+     * @param comunicazioni the comunicazioni to set
+     */
+    public void setComunicazioni(List<Comunicazione> comunicazioni) {
+        this.comunicazioni = comunicazioni;
     }
 
 }

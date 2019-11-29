@@ -14,6 +14,24 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
 
     <div th:replace="fragments/navbar::navbar"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <form th:action="@{/user/add-com}" method="POST" th:object="${newCom}">
+                    <div class="form-group">
+                        <label for="oggetto">Oggetto:</label>
+                        <input type="text" th:field="*{oggetto}" class="form-control">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="descrizione" class="sr-only">descrizione</label>
+                        <textarea th:field="*{descrizione}" maxlength="1000" class="form-control long-textarea" rows="10"></textarea>
+                    </div>
+                    <input type="hidden" th:field="*{corso}">
+                    <button type="submit" class="btn btn-primary">Invia</button>
+                </form>
+            </div>
+        </div>
+    </div>
     <div th:replace="fragments/corso-fragment::corso"></div>
     <div th:replace="fragments/modal-nuova-lezione::modal(${newLez})"></div>
     <div th:replace="fragments/update-prog-modal :: modalProg(corso)"></div>
