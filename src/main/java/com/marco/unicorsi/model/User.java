@@ -14,8 +14,11 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 
 @Entity(name = "user")
+@DynamicUpdate
 public class User{
 
     @Id
@@ -33,7 +36,7 @@ public class User{
     @JoinColumn(name = "id_docente", referencedColumnName = "id_prof")
     Professore docente;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "role_user", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_role"))
     Set<Role> ruoli;
     

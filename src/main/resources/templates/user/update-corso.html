@@ -15,7 +15,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
     <div th:replace="fragments/navbar::navbar"></div>
     <div class="container">
-        <div class="row">
+        <div class="row mb-3">
             <div class="col">
                 <form th:action="@{/user/add-com}" method="POST" th:object="${newCom}">
                     <div class="form-group">
@@ -24,7 +24,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                     </div>
                     <div class="form-group mb-3">
                         <label for="descrizione" class="sr-only">descrizione</label>
-                        <textarea th:field="*{descrizione}" maxlength="1000" class="form-control long-textarea" rows="10"></textarea>
+                        <textarea th:field="*{descrizione}" maxlength="250" class="form-control long-textarea" rows="10"></textarea>
                     </div>
                     <input type="hidden" th:field="*{corso}">
                     <button type="submit" class="btn btn-primary">Invia</button>

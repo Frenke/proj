@@ -10,7 +10,9 @@ import com.marco.unicorsi.model.User;
 import com.marco.unicorsi.repository.ComunicationRepo;
 import com.marco.unicorsi.repository.CorsoRepo;
 import com.marco.unicorsi.repository.LessonRepo;
+import com.marco.unicorsi.repository.ProfRepo;
 import com.marco.unicorsi.repository.UserRepo;
+import com.marco.unicorsi.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,7 +22,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -39,6 +40,12 @@ public class UserController{
     LessonRepo lessonRepo;
 
     @Autowired
+    ProfRepo docRepo;
+
+    @Autowired
+    UserService userService;
+
+    @Autowired
     ComunicationRepo comRepo;
 
     @GetMapping(value="/user-home")
@@ -50,6 +57,25 @@ public class UserController{
             return "redirect: /admin/admin-home";
         }
         return "/user/user-home";
+    }
+
+    @GetMapping(value = "/personal-info")
+    public String getPersonalInfo(Principal principal, Model model){
+        User user = userRepo.findByUsername(principal.getName());
+        model.addAttribute("user", user );
+        return "/user/personal-info";
+    }
+
+    @PostMapping(value = "/update-info")
+    public String updateInfoPost(Principal principal, @ModelAttribute User user){
+
+        if(principal.getName().equals(user.getUsername())){
+            userService.updateUser(user);
+            docRepo.save(user.getDocente());
+        } else {
+            return "/error";
+        }
+        return "redirect:/user/user-home";
     }
 
     @GetMapping(value="/update-corso")
@@ -118,7 +144,7 @@ public class UserController{
         if(isOwner(principal, corso)){
             comRepo.save(comunicazione);
             redirectAttributes.addAttribute("codice", corso.getInsegnamento().getCodice());
-            redirectAttributes.addAttribute("anno", corso.getCorso().getAnnoAccademico());
+            redirectAttributes.addAttribute("anno", corso.getAnnoAccademico());
             return "redirect:/user/update-corso";
         } else {
             return "/error";
@@ -132,7 +158,5 @@ public class UserController{
             return true;
         return false;
     }
-   
-    
 
 }
