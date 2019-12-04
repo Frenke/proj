@@ -40,6 +40,7 @@ public class GuestController{
     public ModelAndView getInsegnamenti(@RequestParam String anno){
         ModelAndView mViewIns = new ModelAndView("insegnamenti");
         mViewIns.addObject("insegnamenti", insRepo.getInsByAnno(anno));
+        mViewIns.addObject("annoAcc", anno);
         return mViewIns;
     }
 

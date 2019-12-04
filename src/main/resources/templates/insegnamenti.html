@@ -19,7 +19,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                 <div class="form-group">
                     <label for="selectAnno">Anno accademico:</label>
                     <select name="anno" class="form-control" th:name="anno" id="selectAnno">
-                        <option th:value="'2019/2020'" selected>2019/2020</option>
+                        <option th:value="'2019/2020'">2019/2020</option>
                         <option th:value="'2018/2019'">2018/2019</option>
                     </select>
                 </div>
@@ -42,7 +42,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                 <tbody>
                     <tr th:each=" ins : ${insegnamenti}">
                         <td th:text="${ins.codice}"></td>
-                        <td th:text="${ins.nome}"></td>
+                        <td><a th:href="@{/corso(codice=${ins.codice}, anno=${annoAcc})}" th:text="${ins.nome}"></a></td>
                         <td th:text="${ins.settore}"></td>
                         <td th:text="${ins.semestre}"></td>
                         <td th:text="${ins.crediti}"></td>
