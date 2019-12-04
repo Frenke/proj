@@ -38,8 +38,18 @@ public class UserService{
     }
 
     public void updateUser(User user){
-        user.setPassword(encoder.encode(user.getPassword()));
-        userRepo.save(user);
+        if(!user.getPassword().isEmpty()){
+            user.setPassword(encoder.encode(user.getPassword()));
+            System.out.println("Password codificata");
+            userRepo.save(user);
+        } else {
+            /*  Se la password è vuota non cambio quella precedente,
+                la query generata da hibernate non permette ciò 
+                quindi occorre recuperarla dal db e settarla nell'oggetto da salvare */
+            User toUpdate = userRepo.findById(user.getIdUser()).get();
+            user.setPassword(toUpdate.getPassword()); 
+            userRepo.save(user);
+        }
     }
 
 

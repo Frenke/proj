@@ -109,7 +109,7 @@ public class AdminController{
 
     @PostMapping(value = "/update-user")
     public ModelAndView updateUser(@ModelAttribute User user){
-        userSrvc.saveUser(user);
+        userSrvc.updateUser(user);
         mViewGlobal.setViewName("/admin/admin-home");
         mViewGlobal.addObject("opOk", true);
         mViewGlobal.addObject("resMsg", "Utente modificato");

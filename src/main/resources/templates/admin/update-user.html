@@ -25,6 +25,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                         <div class="card-body">
                             <form th:action="@{/admin/update-user}" th:object="${user}" method="POST">
                                 <input type="hidden" th:field="*{idUser}">
+                                <input type="hidden" th:field="*{ruoli}">
+                                <input type="hidden" th:field="*{docente}">
                                 <div class="form-group">
                                     <label for="username">Username: </label>
                                     <input type="text" th:field="*{username}" placeholder="Username" class="form-control">
