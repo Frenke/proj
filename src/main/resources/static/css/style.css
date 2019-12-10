@@ -6,3 +6,7 @@ body{
 .long-text-area{
     min-width: 100%;
 }
+
+.info-course{
+    text-align: center;
+}

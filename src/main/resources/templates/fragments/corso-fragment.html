@@ -21,21 +21,49 @@
                 <div class="col">
                     <div class="card">
                         <div class="card-header">
+                            <h6>Informazioni</h6>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-borderless info-course">
+                                <thead>
+                                    <th>Anno</th>
+                                    <th>Semestre</th>
+                                    <th>Crediti</th>
+                                    <th>Settore</th>
+                                </thead>
+                                <tr>
+                                    <td th:text="${corso.insegnamento.anno}"></td>
+                                    <td th:text="${corso.insegnamento.semestre}"></td>
+                                    <td th:text="${corso.insegnamento.crediti}"></td>
+                                    <td th:text="${corso.insegnamento.settore}"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-header">
                             <h6>Comunicazioni</h6>
                         </div>
                         <div class="card-body">
                             <div th:if="${not #lists.isEmpty(corso.comunicazioni)}">
                                 <div th:each=" com : ${corso.comunicazioni}" class="row">
-                                    <div class="col col-md-10">
-                                        <h5 th:text="${com.oggetto}"></h5>
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col-11">
+                                                <h6 th:text="${com.oggetto}"></h6>
+                                            </div>
+                                            <div sec:authorize="hasAuthority('USER')" class="col">
+                                                <form th:action="@{/user/del-com}">
+                                                    <input type="hidden" name="idCom" th:value="${com.id}">
+                                                    <button class="btn btn-danger">&times;</button>
+                                                </form>
+                                            </div>
+                                        </div>
                                         <p th:text="${com.descrizione}"></p>
-                                    </div>
-                                    <div sec:authorize="hasAuthority('USER')" class="col col-md-2">
-                                        <form th:action="@{/user/del-com}">
-                                            <input type="hidden" name="idCom" th:value="${com.id}">
-                                            <button class="btn btn-danger">&times;</button>
-                                        </form>
-                                        <button class="btn btn-primary">&check;</button>
                                     </div>
 
                                 </div>
@@ -43,6 +71,7 @@
                         </div>
                     </div>
                 </div>
+                
             </div>
             <div class="row">
                 <div class="col">
@@ -66,12 +95,12 @@
                         <div class="card-body">
                             <div th:each=" lez : ${corso.lezioni}">
                                 <hr>
-                                <div class="container-fluid">
+                                <div class="container">
                                     <div class="row">
-                                        <div class="col-6">
+                                        <div class="col-10">
                                             <span th:text="${lez.data}"></span>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col">
                                             <form sec:authorize="hasAuthority('USER')"
                                                 th:action="@{/user/delete-lesson}" method="POST">
                                                 <input type="hidden" th:name="codice"
@@ -91,32 +120,6 @@
                     </div>
                 </div>
                 <div class="col">
-                    <div class="card mb-3">
-                        <div class="card-header">
-                            <h6>Informazioni</h6>
-                        </div>
-                        <div class="card-body">
-                            <table class="table table-borderless">
-                                <tr>
-                                    <td>Settore: </td>
-                                    <td th:text="${corso.insegnamento.settore}"></td>
-                                </tr>
-                                <tr>
-                                    <td>Semestre:</td>
-                                    <td th:text="${corso.insegnamento.semestre}"></td>
-                                </tr>
-                                <tr>
-                                    <td>Crediti:</td>
-                                    <td th:text="${corso.insegnamento.crediti}"></td>
-                                </tr>
-                                <tr>
-                                    <td>Anno:</td>
-                                    <td th:text="${corso.insegnamento.anno}"></td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-
                     <div class="card">
                         <div class="card-header">
                             <h6>Programma:</h6>
@@ -136,6 +139,8 @@
             </div>
         </div>
     </div>
+
+    
 </body>
 
 </html>

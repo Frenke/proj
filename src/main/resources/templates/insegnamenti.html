@@ -14,11 +14,11 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
     <div th:replace="fragments/navbar :: navbar"></div>
     <div class="container">
-        <div class="row">
+        <div class="row mb-3">
             <form th:action="@{/insegnamenti}" method="GET" class="form-inline">
                 <div class="form-group">
                     <label for="selectAnno">Anno accademico:</label>
-                    <select name="anno" class="form-control" th:name="anno" id="selectAnno">
+                    <select name="anno" class="form-control mx-3" th:name="anno" id="selectAnno">
                         <option th:value="'2019/2020'">2019/2020</option>
                         <option th:value="'2018/2019'">2018/2019</option>
                     </select>

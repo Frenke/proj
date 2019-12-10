@@ -98,9 +98,7 @@ public class UserController{
         Corso corso = lezione.getCorso();
         if(isOwner(principal, corso)){
             lessonRepo.save(lezione);
-            redirectAttributes.addAttribute("codice", corso.getInsegnamento().getCodice());
-            redirectAttributes.addAttribute("anno", corso.getAnnoAccademico());
-            return "redirect:/user/update-corso";
+            return redirectToUpdateCorso(corso, redirectAttributes);
         } else {
             return "/error";
         }
@@ -129,13 +127,11 @@ public class UserController{
             corso.setProgramma(programma);
             if(!isOwner(principal, corso))
                 return "/error";
-            rAttributes.addAttribute("codice", corso.getInsegnamento().getCodice());
-            rAttributes.addAttribute("anno", corso.getAnnoAccademico());
             corsoRepo.save(corso);
+            return redirectToUpdateCorso(corso, rAttributes);
         } catch(Exception e) {
             return "/error";
         }
-        return "redirect:/user/update-corso";
     }
 
     @PostMapping(value = "/add-com")
@@ -143,9 +139,18 @@ public class UserController{
         Corso corso = comunicazione.getCorso();
         if(isOwner(principal, corso)){
             comRepo.save(comunicazione);
-            redirectAttributes.addAttribute("codice", corso.getInsegnamento().getCodice());
-            redirectAttributes.addAttribute("anno", corso.getAnnoAccademico());
-            return "redirect:/user/update-corso";
+            return redirectToUpdateCorso(corso, redirectAttributes);
+        } else {
+            return "/error";
+        }
+    }
+
+    @GetMapping(value = "/del-com")
+    public String deleteLezione(@RequestParam int idCom, RedirectAttributes redirectAttributes, Principal principal){
+        Corso corso = comRepo.findById(idCom).get().getCorso();
+        if(isOwner(principal, corso)){
+            comRepo.deleteById(idCom);
+            return redirectToUpdateCorso(corso, redirectAttributes);
         } else {
             return "/error";
         }
@@ -157,6 +162,12 @@ public class UserController{
         if(corso.getTitolari().contains(user.getDocente()))
             return true;
         return false;
+    }
+
+    private String redirectToUpdateCorso(Corso corso, RedirectAttributes redirectAttributes){
+        redirectAttributes.addAttribute("codice", corso.getInsegnamento().getCodice());
+        redirectAttributes.addAttribute("anno", corso.getAnnoAccademico());
+        return "redirect:/user/update-corso";
     }
 
 }
