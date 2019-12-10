@@ -3,6 +3,13 @@ body{
     padding-top: 70px;
 }
 
+.form-login{
+    width: 100%;
+    max-width: 380px;
+    margin: auto;
+    padding: 1rem;
+}
+
 .long-text-area{
     min-width: 100%;
 }

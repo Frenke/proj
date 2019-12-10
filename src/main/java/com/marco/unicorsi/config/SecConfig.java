@@ -44,6 +44,12 @@ public class SecConfig extends WebSecurityConfigurerAdapter{
         .antMatchers("/").permitAll()
         .and().csrf().disable()
         .formLogin()
+        .loginPage("/login")
+        .loginProcessingUrl("/login")
+        .usernameParameter("username")
+        .passwordParameter("password")
+        .permitAll()
+        .defaultSuccessUrl("/index")
         .and()
         .logout()
         .logoutSuccessUrl("/index");
