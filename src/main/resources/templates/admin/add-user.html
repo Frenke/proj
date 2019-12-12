@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="it"
-xmlns="http://www.w3.org/1999/xhtml" 
-xmlns:th="http://www.thymeleaf.org"
-xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="it" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <title>Aggiungi Utente</title>
 </head>
+
 <body>
 
     <div th:replace="fragments/navbar::navbar"></div>
@@ -19,29 +19,31 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
         <div class="row">
             <div class="col-md-3"></div>
             <div class="col-md-6 col-sm">
-                    <!--Form aggiungi user-->
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="text-center">Crea nuovo User:</h5>
-                        </div>
-                        <div class="card-body">
-                            <form th:action="@{/admin/add-user}" th:object="${user}" method="POST">
-                                <div class="form-group">
-                                    <label for="username">Username: </label>
-                                    <input type="text" th:field="*{username}" placeholder="Username" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label for="password">Password: </label>
-                                    <input type="password" th:field="*{password}" class="form-control">
-                                </div>
-                                <button type="submit" class="btn btn-primary">Crea user</button>
-                            </form>
-                        </div>
+                <!--Form aggiungi user-->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="text-center">Crea nuovo User:</h5>
                     </div>
-                    <!--fine Form add user-->
+                    <div class="card-body">
+                        <form th:action="@{/admin/add-user}" th:object="${user}" method="POST">
+                            <div class="form-group">
+                                <label for="username">Username: </label>
+                                <input type="text" th:field="*{username}" placeholder="Username" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password: </label>
+                                <input type="password" th:field="*{password}" class="form-control">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Crea user</button>
+                        </form>
+                    </div>
+                </div>
+                <!--fine Form add user-->
             </div>
         </div>
     </div>
-    
+    <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>
+
 </html>
