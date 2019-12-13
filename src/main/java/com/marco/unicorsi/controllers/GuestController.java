@@ -1,6 +1,9 @@
 package com.marco.unicorsi.controllers;
 
 
+import java.util.List;
+
+import com.marco.unicorsi.model.Corso;
 import com.marco.unicorsi.repository.CorsoRepo;
 import com.marco.unicorsi.repository.InsRepo;
 import com.marco.unicorsi.repository.ProfRepo;
@@ -39,14 +42,15 @@ public class GuestController{
     @RequestMapping("/insegnamenti")
     public ModelAndView getInsegnamenti(@RequestParam String anno){
         ModelAndView mViewIns = new ModelAndView("insegnamenti");
-        mViewIns.addObject("insegnamenti", insRepo.getInsByAnno(anno));
+        List<Corso> corsi = corsoRepo.findByAnnoAccademico(anno);
+        mViewIns.addObject("corsi", corsi);
         mViewIns.addObject("annoAcc", anno);
         return mViewIns;
     }
 
     @RequestMapping("/corso")
     public ModelAndView getCorso(@RequestParam String codice, @RequestParam String anno){
-        ModelAndView mViewCorso = new ModelAndView("/corso");
+        ModelAndView mViewCorso = new ModelAndView("corso");
         mViewCorso.addObject("corso", corsoRepo.findByInsegnamentoAndAnnoAccademico(codice, anno));
         return mViewCorso;
     }

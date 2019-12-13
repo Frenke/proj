@@ -15,6 +15,7 @@ import com.marco.unicorsi.repository.UserRepo;
 import com.marco.unicorsi.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.server.ResponseStatusException;
 
 @Controller
 @RequestMapping(path = "/user")
@@ -56,14 +58,14 @@ public class UserController{
         } else {
             return "redirect: /admin/admin-home";
         }
-        return "/user/user-home";
+        return "user/user-home";
     }
 
     @GetMapping(value = "/personal-info")
     public String getPersonalInfo(Principal principal, Model model){
         User user = userRepo.findByUsername(principal.getName());
         model.addAttribute("user", user );
-        return "/user/personal-info";
+        return "user/personal-info";
     }
 
     @PostMapping(value = "/update-info")
@@ -73,9 +75,9 @@ public class UserController{
             userService.updateUser(user);
             docRepo.save(user.getDocente());
         } else {
-            return "/error";
+            return "error";
         }
-        return "redirect:/user/user-home";
+        return "redirect:user/user-home";
     }
 
     @GetMapping(value="/update-corso")
@@ -88,9 +90,9 @@ public class UserController{
             model.addAttribute("newCom", new Comunicazione(corso));
             model.addAttribute("corso", corso);
         } else {
-            return "/error";
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Non sei il titolare di questo corso");
         }
-        return "/user/update-corso";
+        return "user/update-corso";
     }
 
     @PostMapping(value = "/add-lezione")
@@ -100,7 +102,7 @@ public class UserController{
             lessonRepo.save(lezione);
             return redirectToUpdateCorso(corso, redirectAttributes);
         } else {
-            return "/error";
+            return "error";
         }
     }
 
@@ -109,12 +111,10 @@ public class UserController{
          @RequestParam int idLezione, RedirectAttributes redirectAttributes, Principal principal){
         Corso corso = corsoRepo.findByInsegnamentoAndAnnoAccademico(codice, anno);
         if(isOwner(principal, corso)){
-            redirectAttributes.addAttribute("codice", codice);
-            redirectAttributes.addAttribute("anno", anno);
             lessonRepo.deleteById(idLezione);
-            return "redirect:/user/update-corso";
+            return redirectToUpdateCorso(corso, redirectAttributes);
         } else {
-            return "/error";
+            return "error";
         }
     }
 
@@ -126,11 +126,11 @@ public class UserController{
             Corso corso = corsoRepo.findById(idCorso).get();
             corso.setProgramma(programma);
             if(!isOwner(principal, corso))
-                return "/error";
+                return "error";
             corsoRepo.save(corso);
             return redirectToUpdateCorso(corso, rAttributes);
         } catch(Exception e) {
-            return "/error";
+            return "error";
         }
     }
 
@@ -141,7 +141,7 @@ public class UserController{
             comRepo.save(comunicazione);
             return redirectToUpdateCorso(corso, redirectAttributes);
         } else {
-            return "/error";
+            return "error";
         }
     }
 
@@ -167,7 +167,7 @@ public class UserController{
     private String redirectToUpdateCorso(Corso corso, RedirectAttributes redirectAttributes){
         redirectAttributes.addAttribute("codice", corso.getInsegnamento().getCodice());
         redirectAttributes.addAttribute("anno", corso.getAnnoAccademico());
-        return "redirect:/user/update-corso";
+        return "redirect:update-corso";
     }
 
 }

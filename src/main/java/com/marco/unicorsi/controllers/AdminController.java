@@ -42,7 +42,7 @@ public class AdminController{
 
     @GetMapping(value = "/admin-home")
     public ModelAndView getHome(Principal principal){
-        ModelAndView mView = new ModelAndView("/admin/admin-home");
+        ModelAndView mView = new ModelAndView("admin/admin-home");
         //mView.addObject("isAdmin", false);
         //mView.addObject("user", new User());
         //mView.addObject("prof", new Professore());
@@ -53,7 +53,7 @@ public class AdminController{
 
     @GetMapping(value = "/add-user")
     public ModelAndView getAddUser(){
-        ModelAndView mViewAddUser = new ModelAndView("/admin/add-user");
+        ModelAndView mViewAddUser = new ModelAndView("admin/add-user");
         mViewAddUser.addObject("user", new User());
         return mViewAddUser;
     }
@@ -66,7 +66,7 @@ public class AdminController{
         else
             user.setDocente(null);
         userSrvc.saveUser(user);
-        ModelAndView mView = new ModelAndView("/admin/admin-home");
+        ModelAndView mView = new ModelAndView("admin/admin-home");
         mView.addObject("opOk", true);
         mView.addObject("resMsg", "Utente creato con successo");
         return mView;
@@ -74,7 +74,7 @@ public class AdminController{
 
     @GetMapping(value = "/add-docente")
     public ModelAndView getAddDocente(){
-        ModelAndView mView = new ModelAndView("/admin/add-docente");
+        ModelAndView mView = new ModelAndView("admin/add-docente");
         mView.addObject("prof", new Professore());
         return mView;
     }
@@ -82,7 +82,7 @@ public class AdminController{
     @PostMapping(value = "/add-docente")
     public ModelAndView addDocente(@ModelAttribute Professore professore){
         profRepo.save(professore);
-        ModelAndView mView = new ModelAndView("/admin/admin-home");
+        ModelAndView mView = new ModelAndView("admin/admin-home");
         mView.addObject("opOk", true);
         mView.addObject("resMsg", "Docente creato con successo");
         return mView;
@@ -90,7 +90,7 @@ public class AdminController{
 
     @GetMapping(value = "/add-insegnamento")
     public ModelAndView getAddIns(){
-        ModelAndView mView =  new ModelAndView("/admin/add-insegnamento");
+        ModelAndView mView =  new ModelAndView("admin/add-insegnamento");
         mView.addObject("ins", new Insegnamento());
         return mView;
     }
@@ -98,7 +98,7 @@ public class AdminController{
     @PostMapping(value = "/add-insegnamento")
     public ModelAndView addInsegnamento(@ModelAttribute Insegnamento insegnamento){
         insRepo.save(insegnamento);
-        ModelAndView mView = new ModelAndView("/admin/admin-home");
+        ModelAndView mView = new ModelAndView("admin/admin-home");
         mView.addObject("opOk", true);
         mView.addObject("resMsg", "Insegnamento aggiunto");
         return mView;
@@ -106,7 +106,7 @@ public class AdminController{
 
     @GetMapping(value = "/update-user")
     public ModelAndView getUpdateUser(@RequestParam int id){
-        mViewGlobal.setViewName("/admin/update-user");
+        mViewGlobal.setViewName("admin/update-user");
         mViewGlobal.addObject("user", userRepo.findById(id));
         return mViewGlobal;
     }
@@ -115,6 +115,8 @@ public class AdminController{
     public ModelAndView updateUser(@ModelAttribute User user){
         if(isAlsoDocente(user))
             profRepo.save(user.getDocente());
+        else
+            user.setDocente(null); //Occorre settare il campo a null altrimenti vengono generate query con inserimento di campi vuoti che violano le constraint del db
         userSrvc.updateUser(user);
         mViewGlobal.setViewName("/admin/admin-home");
         mViewGlobal.addObject("opOk", true);
