@@ -61,6 +61,10 @@ public class AdminController{
     //Chiamato quando si invia il form dalla pagina add user
     @PostMapping(value = "/add-user")
     public ModelAndView addUser(@ModelAttribute User user){
+        if(isAlsoDocente(user))
+            profRepo.save(user.getDocente());
+        else
+            user.setDocente(null);
         userSrvc.saveUser(user);
         ModelAndView mView = new ModelAndView("/admin/admin-home");
         mView.addObject("opOk", true);
@@ -109,6 +113,8 @@ public class AdminController{
 
     @PostMapping(value = "/update-user")
     public ModelAndView updateUser(@ModelAttribute User user){
+        if(isAlsoDocente(user))
+            profRepo.save(user.getDocente());
         userSrvc.updateUser(user);
         mViewGlobal.setViewName("/admin/admin-home");
         mViewGlobal.addObject("opOk", true);
@@ -153,5 +159,17 @@ public class AdminController{
             mView.addObject("errMsg", "Errore! " + e.getMessage());
         }
         return mView;
+    }
+
+    /* Se lo user è anche un docente deve avere i campi nome, cognome e mail non vuoti */
+    private boolean isAlsoDocente(User user){
+        Professore professore = user.getDocente();
+        if(professore.getNome().isEmpty())
+            return false;
+        else if(professore.getCognome().isEmpty())
+            return false;
+        else if(professore.getMail().isEmpty())
+            return false;
+        return true;
     }
 }

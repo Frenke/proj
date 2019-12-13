@@ -16,30 +16,61 @@
     <div th:replace="fragments/navbar::navbar"></div>
 
     <div class="container">
-        <div class="col-sm">
-            <!--Form aggiungi user-->
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="text-center">Crea nuovo User:</h5>
+        <div class="row">
+            <div class="col"></div>
+            <div class="col-6">
+                <!--Form aggiungi user-->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="text-center">Modifica User:</h5>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/admin/update-user}" th:object="${user}" method="POST">
+                            <input type="hidden" th:field="*{idUser}">
+                            <input type="hidden" th:field="*{ruoli}">
+                            <input type="hidden" th:field="*{docente}">
+                            <div class="form-group">
+                                <label for="username">Username: </label>
+                                <input type="text" th:field="*{username}" placeholder="Username" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password: </label>
+                                <input type="password" th:field="*{password}" class="form-control">
+                            </div>
+                            <div id="docente">
+                                <input type="hidden" th:field="*{docente.id}">
+                                <div class="form-group">
+                                    <label for="nome">Nome:</label>
+                                    <input type="text" th:field="*{docente.nome}" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cognome">Cognome:</label>
+                                    <input type="text" th:field="*{docente.cognome}" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="mail">E-Mail:</label>
+                                    <input type="email" th:field="*{docente.mail}" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="telefono">Tel:</label>
+                                    <input type="tel" th:field="*{docente.telefono}" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="web">Sito web:</label>
+                                    <input type="url" th:field="*{docente.web}" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="qualifica">Qualifica:</label>
+                                    <input type="text" class="form-control" th:field="*{docente.qualifica}">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Modifica user</button>
+                        </form>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <form th:action="@{/admin/update-user}" th:object="${user}" method="POST">
-                        <input type="hidden" th:field="*{idUser}">
-                        <input type="hidden" th:field="*{ruoli}">
-                        <input type="hidden" th:field="*{docente}">
-                        <div class="form-group">
-                            <label for="username">Username: </label>
-                            <input type="text" th:field="*{username}" placeholder="Username" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Password: </label>
-                            <input type="password" th:field="*{password}" class="form-control">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Modifica user</button>
-                    </form>
-                </div>
+                <!--fine Form add user-->
             </div>
-            <!--fine Form add user-->
+            <div class="col"></div>
         </div>
 
         <script th:src="@{/js/jquery-3.4.1.min.js}"></script>

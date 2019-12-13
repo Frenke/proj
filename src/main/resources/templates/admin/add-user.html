@@ -34,6 +34,42 @@
                                 <label for="password">Password: </label>
                                 <input type="password" th:field="*{password}" class="form-control">
                             </div>
+                            <div class="form-check form-check-inline form-group">
+                                <input id="add-doc" class="form-check-input" type="checkbox" data-toggle="collapse" data-target="#docente" aria-expanded="false">
+                                <label for="add-doc" class="form-check-label">Crea nuovo docente associato</label>
+                            </div>
+                            <div id="docente" class="collapse">
+                                <div class="form-group">
+                                    <label for="nome">Nome:</label>
+                                    <input type="text" th:field="*{docente.nome}" placeholder="Nome"
+                                        class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cognome">Cognome:</label>
+                                    <input type="text" th:field="*{docente.cognome}" placeholder="Cognome"
+                                        class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="mail">E-Mail:</label>
+                                    <input type="email" th:field="*{docente.mail}" placeholder="email@ex.com"
+                                        class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="telefono">Tel:</label>
+                                    <input type="tel" th:field="*{docente.telefono}" placeholder="125656"
+                                        class="form-control">
+                                </div>
+                                <div class="from-group">
+                                    <label for="web">Sito web:</label>
+                                    <input type="url" th:field="*{docente.web}" placeholder="site.it"
+                                        class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="qualifica"></label>
+                                    <input type="text" class="form-control" th:field="*{docente.qualifica}"
+                                        placeholder="qualifica">
+                                </div>
+                            </div>
                             <button type="submit" class="btn btn-primary">Crea user</button>
                         </form>
                     </div>
@@ -44,6 +80,7 @@
     </div>
     <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    
 </body>
 
 </html>
