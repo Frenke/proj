@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
@@ -19,6 +20,7 @@ public class SecConfig extends WebSecurityConfigurerAdapter{
 
     private String USER_QUERY = "select username, password, active from user where username = ?";
     private String ROLE_QUERY = "select u.username, r.role from user u inner join role_user ur on (u.id_user = ur.id_user) inner join role r on (ur.id_role = r.id_role) where username = ?";
+
 
     @Autowired
     DataSource dataSource;
@@ -34,7 +36,30 @@ public class SecConfig extends WebSecurityConfigurerAdapter{
         .usersByUsernameQuery(USER_QUERY)
         .authoritiesByUsernameQuery(ROLE_QUERY)
         .dataSource(dataSource)
-        .passwordEncoder(encoder());
+        .passwordEncoder(new PasswordEncoder(){
+
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+            private CharSequence decryptSequence(CharSequence rawPass){
+                return  AesUtil.decrypt(rawPass.toString());
+            }
+        
+            @Override
+            public boolean matches(CharSequence rawPassword, String encodedPassword) {
+                
+                //if(rawPassword.toString().contains(key))
+                //    rawPassword.toString().replace(key, "");
+                //return false;
+                //System.out.println(seq.length());
+                return encoder.matches(decryptSequence(rawPassword), encodedPassword);
+            }
+        
+            @Override
+            public String encode(CharSequence rawPassword) {
+                //CharSequence seq = AesUtil.decrypt(rawPassword.toString());
+                return encoder.encode(decryptSequence(rawPassword));
+            }
+        });
     }
 
     @Override
@@ -54,7 +79,6 @@ public class SecConfig extends WebSecurityConfigurerAdapter{
         .logout()
         .logoutSuccessUrl("/index");
     }
-
 
 
 }

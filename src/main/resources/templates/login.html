@@ -17,7 +17,7 @@
             <div th:if="${param.error}" class="alert alert-danger" role="alert">
                 Username/Password errati
             </div>
-            <form th:action="@{/login}" method="POST">
+            <form id="login-form" th:action="@{/login}" method="POST">
                 <h1>Accedi</h1>
                 <div class="form-group">
                     <label for="username" class="sr-only">Username:</label>
@@ -27,13 +27,16 @@
                     <label for="password" class="sr-only">password</label>
                     <input type="password" class="form-control" id="password" name="password" placeholder="Password">
                 </div>
-                <button type="submit" class="btn btn-primary btn-block btn-lg">Invia</button>
+                <button onclick="submitForm()" class="btn btn-primary btn-block btn-lg">Invia</button>
             </form>
         </div>
+        <p id="key" th:text="${publicKey}"></p>
     </div>
 
     <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+    <script th:src="@{/js/cripto.js}"></script>
 </body>
 
 </html>
