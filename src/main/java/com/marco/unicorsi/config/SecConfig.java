@@ -3,6 +3,7 @@ package com.marco.unicorsi.config;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -16,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableConfigurationProperties(KeyProperties.class)
 public class SecConfig extends WebSecurityConfigurerAdapter{
 
     private String USER_QUERY = "select username, password, active from user where username = ?";
@@ -23,7 +25,10 @@ public class SecConfig extends WebSecurityConfigurerAdapter{
 
 
     @Autowired
-    DataSource dataSource;
+    private DataSource dataSource;
+
+    @Autowired
+    private KeyProperties keyProperties;
 
     @Bean
     public BCryptPasswordEncoder encoder(){
@@ -37,26 +42,24 @@ public class SecConfig extends WebSecurityConfigurerAdapter{
         .authoritiesByUsernameQuery(ROLE_QUERY)
         .dataSource(dataSource)
         .passwordEncoder(new PasswordEncoder(){
-
-            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            /* Questo encoder decifra una password codificata con AES tramite AesUtil
+                poi controlla l'hash della password ottenuta confrontandolo con quello salvato
+                sul database (oggetto BCryptPasswordEncoder)
+             */
+            BCryptPasswordEncoder encoder = encoder();
 
             private CharSequence decryptSequence(CharSequence rawPass){
-                return  AesUtil.decrypt(rawPass.toString());
+                AesUtil util = new AesUtil();
+                return  util.decrypt(rawPass.toString(), keyProperties.getKey());
             }
         
             @Override
             public boolean matches(CharSequence rawPassword, String encodedPassword) {
-                
-                //if(rawPassword.toString().contains(key))
-                //    rawPassword.toString().replace(key, "");
-                //return false;
-                //System.out.println(seq.length());
                 return encoder.matches(decryptSequence(rawPassword), encodedPassword);
             }
         
             @Override
             public String encode(CharSequence rawPassword) {
-                //CharSequence seq = AesUtil.decrypt(rawPassword.toString());
                 return encoder.encode(decryptSequence(rawPassword));
             }
         });
