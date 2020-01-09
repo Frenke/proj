@@ -118,7 +118,7 @@ public class AdminController{
         else
             user.setDocente(null); //Occorre settare il campo a null altrimenti vengono generate query con inserimento di campi vuoti che violano le constraint del db
         userSrvc.updateUser(user);
-        mViewGlobal.setViewName("/admin/admin-home");
+        mViewGlobal.setViewName("admin/admin-home");
         mViewGlobal.addObject("opOk", true);
         mViewGlobal.addObject("resMsg", "Utente modificato");
         return mViewGlobal;
@@ -126,14 +126,14 @@ public class AdminController{
 
     @GetMapping(value = "/search-user")
     public ModelAndView searchUser(@RequestParam(required = false) String username){
-        ModelAndView mView = new ModelAndView("/admin/admin-home");
+        ModelAndView mView = new ModelAndView("admin/admin-home");
         mView.addObject("searchRes", userRepo.findByUsernameContains(username));
         return mView;
     }
 
     @GetMapping(value = "/user-docente")
     public ModelAndView getUserDocente(@RequestParam int idUser){
-        ModelAndView mView = new ModelAndView("/admin/user-docente");
+        ModelAndView mView = new ModelAndView("admin/user-docente");
         mView.addObject("user", userRepo.findById(idUser).get());
         return mView;
     }
@@ -148,7 +148,7 @@ public class AdminController{
 
     @PostMapping(value = "/assegna-docente")
     public ModelAndView assegnaDocentePost(@RequestParam int idDoc, @RequestParam int idUser){
-        ModelAndView mView = new ModelAndView("/admin/admin-home");
+        ModelAndView mView = new ModelAndView("admin/admin-home");
         try{
             Professore doc = profRepo.findById(idDoc).get();
             User user = userRepo.findById(idUser).get();

@@ -16,8 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-@EnableConfigurationProperties(KeyProperties.class)
+@EnableGlobalMethodSecurity(prePostEnabled = true) 
+@EnableConfigurationProperties(KeyProperties.class) //Abilita la gestione della chiave AES come proprietà dell'app
 public class SecConfig extends WebSecurityConfigurerAdapter{
 
     private String USER_QUERY = "select username, password, active from user where username = ?";

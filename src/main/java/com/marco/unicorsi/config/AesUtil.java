@@ -27,10 +27,8 @@ public class AesUtil {
             cipher.init(Cipher.DECRYPT_MODE, keySpec, ivSpec);
             byte[] original = cipher.doFinal(enc);
             String originalString = new String(original);
-            System.out.println(originalString.trim());
             return originalString.trim();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return "";
