@@ -1,7 +1,5 @@
 package com.marco.unicorsi.controllers;
 
-import java.security.Principal;
-
 import com.marco.unicorsi.model.Insegnamento;
 import com.marco.unicorsi.model.Professore;
 import com.marco.unicorsi.model.User;
@@ -41,14 +39,10 @@ public class AdminController{
     private ModelAndView mViewGlobal = new ModelAndView();
 
     @GetMapping(value = "/admin-home")
-    public ModelAndView getHome(Principal principal){
-        ModelAndView mView = new ModelAndView("admin/admin-home");
-        //mView.addObject("isAdmin", false);
-        //mView.addObject("user", new User());
-        //mView.addObject("prof", new Professore());
-        mView.addObject("opOk", false);
-        mView.addObject("opError", false);
-        return mView;
+    public String getHome(Model model){
+        model.addAttribute("opOk", false);
+        model.addAttribute("opError", false);
+        return "admin/admin-home";
     }
 
     @GetMapping(value = "/add-user")
@@ -60,16 +54,21 @@ public class AdminController{
 
     //Chiamato quando si invia il form dalla pagina add user
     @PostMapping(value = "/add-user")
-    public ModelAndView addUser(@ModelAttribute User user){
+    public String addUser(@ModelAttribute User user, Model model){
         if(isAlsoDocente(user))
             profRepo.save(user.getDocente());
-        else
+        else //Se non è anche docente si setta a null, Spring di default setta l'oggetto non come null ma come vuoto
             user.setDocente(null);
-        userSrvc.saveUser(user);
-        ModelAndView mView = new ModelAndView("admin/admin-home");
-        mView.addObject("opOk", true);
-        mView.addObject("resMsg", "Utente creato con successo");
-        return mView;
+        if(userRepo.findByUsername(user.getUsername()) == null){
+            userSrvc.saveUser(user);
+            model.addAttribute("opOk", true);       
+            model.addAttribute("resMsg", "Utente creato con successo");
+        } else {
+            model.addAttribute("opError", true);
+            model.addAttribute("errMsg", "Errore: username già utilizzato");
+        }
+
+        return "admin/admin-home";
     }
 
     @GetMapping(value = "/add-docente")
@@ -80,12 +79,11 @@ public class AdminController{
     }
 
     @PostMapping(value = "/add-docente")
-    public ModelAndView addDocente(@ModelAttribute Professore professore){
+    public String addDocente(@ModelAttribute Professore professore, Model model){
         profRepo.save(professore);
-        ModelAndView mView = new ModelAndView("admin/admin-home");
-        mView.addObject("opOk", true);
-        mView.addObject("resMsg", "Docente creato con successo");
-        return mView;
+        model.addAttribute("opOk", true);
+        model.addAttribute("resMsg", "Docente creato con successo");
+        return "admin/admin-home";
     }
 
     @GetMapping(value = "/add-insegnamento")
@@ -96,12 +94,11 @@ public class AdminController{
     }
 
     @PostMapping(value = "/add-insegnamento")
-    public ModelAndView addInsegnamento(@ModelAttribute Insegnamento insegnamento){
+    public String addInsegnamento(@ModelAttribute Insegnamento insegnamento, Model model){
         insRepo.save(insegnamento);
-        ModelAndView mView = new ModelAndView("admin/admin-home");
-        mView.addObject("opOk", true);
-        mView.addObject("resMsg", "Insegnamento aggiunto");
-        return mView;
+        model.addAttribute("opOk", true);
+        model.addAttribute("resMsg", "Insegnamento aggiunto");
+        return "admin/admin-home";
     } 
 
     @GetMapping(value = "/update-user")
@@ -112,16 +109,15 @@ public class AdminController{
     }
 
     @PostMapping(value = "/update-user")
-    public ModelAndView updateUser(@ModelAttribute User user){
+    public String updateUser(@ModelAttribute User user, Model model){
         if(isAlsoDocente(user))
             profRepo.save(user.getDocente());
         else
             user.setDocente(null); //Occorre settare il campo a null altrimenti vengono generate query con inserimento di campi vuoti che violano le constraint del db
         userSrvc.updateUser(user);
-        mViewGlobal.setViewName("admin/admin-home");
-        mViewGlobal.addObject("opOk", true);
-        mViewGlobal.addObject("resMsg", "Utente modificato");
-        return mViewGlobal;
+        model.addAttribute("opOk", true);
+        model.addAttribute("resMsg", "Utente modificato");
+        return "admin/admin-home";
     }
 
     @GetMapping(value = "/search-user")
@@ -140,27 +136,25 @@ public class AdminController{
 
     @GetMapping(value = "/search-docente")
     public String getDocenti(Model model, @RequestParam String cognome, @RequestParam int idUser){
-        //ModelAndView mView = new ModelAndView("/admin/user-docente");
         model.addAttribute("searchRes", profRepo.findByCognomeContains(cognome));
         model.addAttribute("idUser", idUser);
         return "/fragments/docenti-search-res :: resList";
     }
 
     @PostMapping(value = "/assegna-docente")
-    public ModelAndView assegnaDocentePost(@RequestParam int idDoc, @RequestParam int idUser){
-        ModelAndView mView = new ModelAndView("admin/admin-home");
+    public String assegnaDocentePost(@RequestParam int idDoc, @RequestParam int idUser, Model model){
         try{
             Professore doc = profRepo.findById(idDoc).get();
             User user = userRepo.findById(idUser).get();
             user.setDocente(doc);
             userRepo.save(user);
-            mView.addObject("opOk", true);
-            mView.addObject("resMsg", "Assegnato con successo!");
+            model.addAttribute("opOk", true);
+            model.addAttribute("resMsg", "Assegnato con successo!");
         } catch(Exception e) {
-            mView.addObject("opError", true);
-            mView.addObject("errMsg", "Errore! " + e.getMessage());
+            model.addAttribute("opError", true);
+            model.addAttribute("errMsg", "Errore! " + e.getMessage());
         }
-        return mView;
+        return "admin/admin-home";
     }
 
     /* Se lo user è anche un docente deve avere i campi nome, cognome e mail non vuoti */

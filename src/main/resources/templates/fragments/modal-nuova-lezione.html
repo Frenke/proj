@@ -14,7 +14,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <form th:action="@{/user/add-lezione}" th:object="${newLez}" method="post">
+            <form onsubmit="return addLesson()" th:action="@{/user/add-lezione}" th:object="${newLez}" method="post">
             <div class="modal-body">
                     <div class="form-group">
                         <label for="data">Data:</label>

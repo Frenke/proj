@@ -11,3 +11,20 @@ function searchDoc() {
     req.open('GET', "/admin/search-docente?cognome=" + cognome + "&idUser=" + id);
     req.send();    
 }
+/**
+ * controlla che quando si aggiunge una nuova lezione questa non abbia parametri nulli
+ */
+function addLesson(){
+    var data = document.getElementById("data");
+    var desc = document.getElementById("descrizione");
+    if(data.value == null || data.value == ""){
+        data.focus();
+        return false;
+    }
+    else if(desc.value == null || desc.value == ""){
+       desc.focus();
+       return false; 
+    }
+    console.log("OK")
+    return true;
+}
