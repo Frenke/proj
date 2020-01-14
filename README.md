@@ -11,3 +11,8 @@ spring.datasource.url= your-url-to-db (es jdbc:mysql://localhost:3306/NomeDB)
 spring.datasource.username= YourUsername
 spring.datasource.password= YourPassword
 ```
+Utilizzare Maven per la build
+```shell
+mvn clean install
+```
+Il jar ottenuto può esere quindi lanciato 
