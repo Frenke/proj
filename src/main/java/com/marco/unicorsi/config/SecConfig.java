@@ -41,11 +41,11 @@ public class SecConfig extends WebSecurityConfigurerAdapter{
         .usersByUsernameQuery(USER_QUERY)
         .authoritiesByUsernameQuery(ROLE_QUERY)
         .dataSource(dataSource)
-        .passwordEncoder(new PasswordEncoder(){
-            /* Questo encoder decifra una password codificata con AES tramite AesUtil
+        .passwordEncoder(/*new PasswordEncoder(){
+             Questo encoder decifra una password codificata con AES tramite AesUtil
                 poi controlla l'hash della password ottenuta confrontandolo con quello salvato
                 sul database (oggetto BCryptPasswordEncoder)
-             */
+             
             BCryptPasswordEncoder encoder = encoder();
 
             private CharSequence decryptSequence(CharSequence rawPass){
@@ -62,7 +62,7 @@ public class SecConfig extends WebSecurityConfigurerAdapter{
             public String encode(CharSequence rawPassword) {
                 return encoder.encode(decryptSequence(rawPassword));
             }
-        });
+        }*/ encoder());
     }
 
     @Override

@@ -18,7 +18,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"id_corso", "codice"}))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"id_corso", "id_ins"}))
 public class Corso{
 
     @Id
@@ -27,7 +27,7 @@ public class Corso{
     int idCorso;
 
     @ManyToOne
-    @JoinColumn(name = "codice")
+    @JoinColumn(name = "id_ins")
     Insegnamento insegnamento;
 
     @NotNull

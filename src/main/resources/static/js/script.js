@@ -1,3 +1,6 @@
+/**
+ * Esegue una richiesta http al server per una lista di docenti
+ */
 function searchDoc() {
     var list = document.getElementById("resultList");
     var req = new XMLHttpRequest();
@@ -25,6 +28,5 @@ function addLesson(){
        desc.focus();
        return false; 
     }
-    console.log("OK")
     return true;
 }
