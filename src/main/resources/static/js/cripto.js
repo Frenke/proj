@@ -1,4 +1,6 @@
 
 //TODO
 var form = document.getElementById("login-form");
-form.submit();
+function submitForm(){
+    form.submit();
+}
