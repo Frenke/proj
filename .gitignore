@@ -32,3 +32,4 @@ build/
 
 ### Application properties ###
 src/main/resources/application.properties
+pom.xml
