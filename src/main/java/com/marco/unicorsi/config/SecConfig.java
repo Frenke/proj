@@ -21,7 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecConfig extends WebSecurityConfigurerAdapter{
 
     private String USER_QUERY = "select username, password, active from user where username = ?";
-    private String ROLE_QUERY = "select u.username, r.role from user u inner join role_user ur on (u.id_user = ur.id_user) inner join role r on (ur.id_role = r.id_role) where username = ?";
+    private String ROLE_QUERY = "select u.username, r.role from user u join role_user ur on (u.id_user = ur.id_user) join role r on (ur.id_role = r.id_role) where username = ?";
 
 
     @Autowired
@@ -47,13 +47,11 @@ public class SecConfig extends WebSecurityConfigurerAdapter{
         
             @Override
             public boolean matches(CharSequence rawPassword, String encodedPassword) {
-                System.out.println(encoder.matches(rawPassword, encodedPassword));
                 return encoder.matches(rawPassword, encodedPassword);
             }
         
             @Override
             public String encode(CharSequence rawPassword) {
-                System.out.println("ecjo " + rawPassword);
                 return encoder.encode(rawPassword);
             }
         });
