@@ -41,28 +41,22 @@ public class SecConfig extends WebSecurityConfigurerAdapter{
         .usersByUsernameQuery(USER_QUERY)
         .authoritiesByUsernameQuery(ROLE_QUERY)
         .dataSource(dataSource)
-        .passwordEncoder(/*new PasswordEncoder(){
-             Questo encoder decifra una password codificata con AES tramite AesUtil
-                poi controlla l'hash della password ottenuta confrontandolo con quello salvato
-                sul database (oggetto BCryptPasswordEncoder)
+        .passwordEncoder(new PasswordEncoder(){
              
             BCryptPasswordEncoder encoder = encoder();
-
-            private CharSequence decryptSequence(CharSequence rawPass){
-                AesUtil util = new AesUtil();
-                return  util.decrypt(rawPass.toString(), keyProperties.getKey());
-            }
         
             @Override
             public boolean matches(CharSequence rawPassword, String encodedPassword) {
-                return encoder.matches(decryptSequence(rawPassword), encodedPassword);
+                System.out.println(encoder.matches(rawPassword, encodedPassword));
+                return encoder.matches(rawPassword, encodedPassword);
             }
         
             @Override
             public String encode(CharSequence rawPassword) {
-                return encoder.encode(decryptSequence(rawPassword));
+                System.out.println("ecjo " + rawPassword);
+                return encoder.encode(rawPassword);
             }
-        }*/ encoder());
+        });
     }
 
     @Override
