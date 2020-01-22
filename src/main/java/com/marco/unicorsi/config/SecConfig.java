@@ -47,7 +47,7 @@ public class SecConfig extends WebSecurityConfigurerAdapter{
         
             @Override
             public boolean matches(CharSequence rawPassword, String encodedPassword) {
-                return encoder.matches(rawPassword, encodedPassword);
+                return encoder.matches(rawPassword,encodedPassword);
             }
         
             @Override
