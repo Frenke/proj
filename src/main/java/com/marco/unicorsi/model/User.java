@@ -12,12 +12,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.annotations.DynamicUpdate;
 
 
 @Entity(name = "user")
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = "username"))
 @DynamicUpdate
 public class User{
 
