@@ -34,6 +34,7 @@ public class Corso{
     String annoAccademico;
 
     @NotNull
+    @Column(columnDefinition = "TEXT")
     String programma;
 
     @NotNull

@@ -2,11 +2,13 @@ package com.marco.unicorsi.controllers;
 
 import java.security.Principal;
 
+import com.marco.unicorsi.model.Avvisi;
 import com.marco.unicorsi.model.Comunicazione;
 import com.marco.unicorsi.model.Corso;
 import com.marco.unicorsi.model.Lezione;
 import com.marco.unicorsi.model.Professore;
 import com.marco.unicorsi.model.User;
+import com.marco.unicorsi.repository.AvvisiRepo;
 import com.marco.unicorsi.repository.ComunicationRepo;
 import com.marco.unicorsi.repository.CorsoRepo;
 import com.marco.unicorsi.repository.LessonRepo;
@@ -49,6 +51,9 @@ public class UserController{
 
     @Autowired
     ComunicationRepo comRepo;
+
+    @Autowired
+    AvvisiRepo avvisiRepo;
 
     @GetMapping(value="/user-home")
     public String getUserHome(Principal principal, Model model) {
@@ -155,6 +160,17 @@ public class UserController{
             return "/error";
         }
     }
+
+    @PostMapping(value = "/addAvviso")
+    public String addAvviso(Principal principal, String oggetto, String avviso){
+        Avvisi newAvviso = new Avvisi();
+        newAvviso.setOggetto(oggetto);
+        newAvviso.setBody(avviso);
+        newAvviso.setAutore(userRepo.findByUsername(principal.getName()));
+        avvisiRepo.save(newAvviso);
+        return "redirect:/index";
+    }
+
 
     //Controlla se chi sta eseguendo la richiesta è titolare del corso
     private boolean isOwner(Principal principal, Corso corso){

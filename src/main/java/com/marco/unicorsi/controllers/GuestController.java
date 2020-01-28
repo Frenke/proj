@@ -4,11 +4,13 @@ package com.marco.unicorsi.controllers;
 import java.util.List;
 
 import com.marco.unicorsi.model.Corso;
+import com.marco.unicorsi.repository.AvvisiRepo;
 import com.marco.unicorsi.repository.CorsoRepo;
 import com.marco.unicorsi.repository.InsRepo;
 import com.marco.unicorsi.repository.ProfRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,9 +28,13 @@ public class GuestController{
     @Autowired
     CorsoRepo corsoRepo;
 
+    @Autowired
+    AvvisiRepo avvisiRepo;
+
     @RequestMapping("/index")
     public ModelAndView getIndex(){
         ModelAndView mvView = new ModelAndView("index");
+        mvView.addObject("avvisi", avvisiRepo.findAll(Sort.by(Sort.Direction.DESC, "data")));
         return mvView;
     }
 

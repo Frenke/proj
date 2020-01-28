@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<html lang="it"
-xmlns="http://www.w3.org/1999/xhtml" 
-xmlns:th="http://www.thymeleaf.org"
-xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="it" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,11 +10,71 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <title>Index</title>
 </head>
+
 <body>
     <div th:replace="fragments/navbar :: navbar"></div>
-    
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div id="avvisi" class="card mb-3">
+                    <div class="card-header">
+                        <h5>Avvisi:</h5>
+                    </div>
+                    <div class="card-body">
+                        <div th:each=" avviso : ${avvisi}" class="mb-3">
+                            <h5 class="card-title" th:text="${avviso.oggetto}"></h5>
+                            <h6 class="card-subtitle text-muted" th:text="${avviso.data} + ' da: ' + ${avviso.autore.username}"></h6>
+                            <p class="card-text" th:text="${avviso.body}"></p>
+                        </div>
+                    </div>
+                </div>
+                <button sec:authorize="hasAuthority('USER')" class="btn btn-primary" data-toggle="modal"
+                    data-target="#avvisoModal">Aggiungi avviso</button>
+            </div>
+        </div>
+    </div>
+
+    <div sec:authorize="hasAuthority('USER')">
+        <!-- Il modal viene aggiunto alla pagina solo se l'utente è loggato ed è user -->
+        <div class="modal fade" id="avvisoModal" tabindex="-1" role="dialog" aria-labelledby="avvisoModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="avvisoModalLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="avvisoForm" th:action="@{/user/addAvviso}" method="POST">
+                            <div class="form-group">
+                                <label for="oggetto">Oggetto:</label>
+                                <input class="form-control" type="text" id="oggetto" name="oggetto">
+                            </div>
+                            <div class="form-group">
+                                <label for="avviso">Testo avviso</label>
+                                <textarea class="form-control long-text-area" id="avviso" name="avviso"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+                        <button type="submit" form="avvisoForm" class="btn btn-primary">Salva</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <script sec:authorize="hasAuthority('USER')" th:src="@{/js/check-script.js}"></script>
     <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
     <script th:src="@{/js/script.js}"></script>
 </body>
+
 </html>
