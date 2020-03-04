@@ -61,13 +61,17 @@ public class AdminController{
 
     //Chiamato quando si invia il form dalla pagina add user
     @PostMapping(value = "/add-user")
-    public String addUser(@ModelAttribute User user, Model model){
+    public String addUser(@ModelAttribute User user, Model model, boolean isAdmin){
         if(isAlsoDocente(user))
             profRepo.save(user.getDocente());
         else //Se non è anche docente si setta a null, Spring di default setta l'oggetto non come null ma come vuoto
             user.setDocente(null);
         if(userRepo.findByUsername(user.getUsername()) == null){
-            userSrvc.saveUser(user);
+            if(isAdmin){
+                userSrvc.saveAdmin(user);
+            } else {
+                userSrvc.saveUser(user);
+            }
             model.addAttribute("opOk", true);       
             model.addAttribute("resMsg", "Utente creato con successo");
         } else {
