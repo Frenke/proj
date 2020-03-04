@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
@@ -27,9 +26,6 @@ public class SecConfig extends WebSecurityConfigurerAdapter{
     @Autowired
     private DataSource dataSource;
 
-    @Autowired
-    private KeyProperties keyProperties;
-
     @Bean
     public BCryptPasswordEncoder encoder(){
         return new BCryptPasswordEncoder();
@@ -41,25 +37,11 @@ public class SecConfig extends WebSecurityConfigurerAdapter{
         .usersByUsernameQuery(USER_QUERY)
         .authoritiesByUsernameQuery(ROLE_QUERY)
         .dataSource(dataSource)
-        .passwordEncoder(new PasswordEncoder(){
-             
-            BCryptPasswordEncoder encoder = encoder();
-        
-            @Override
-            public boolean matches(CharSequence rawPassword, String encodedPassword) {
-                return encoder.matches(rawPassword,encodedPassword);
-            }
-        
-            @Override
-            public String encode(CharSequence rawPassword) {
-                return encoder.encode(rawPassword);
-            }
-        });
+        .passwordEncoder(encoder());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-       
         http.authorizeRequests()
         .antMatchers("/").permitAll()
         .and().csrf().disable()

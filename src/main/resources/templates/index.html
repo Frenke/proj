@@ -26,11 +26,38 @@
                             <h5 class="card-title" th:text="${avviso.oggetto}"></h5>
                             <h6 class="card-subtitle text-muted" th:text="${avviso.data} + ' da: ' + ${avviso.autore.username}"></h6>
                             <p class="card-text" th:text="${avviso.body}"></p>
+                            <form th:action="@{/user/delAvviso}">
+                                <input type="hidden" name="id" th:value="${avviso.id}">
+                                <button onclick="conferma(event)" class="btn btn-danger">&times;</button>
+                            </form>
                         </div>
                     </div>
                 </div>
                 <button sec:authorize="hasAuthority('USER')" class="btn btn-primary" data-toggle="modal"
                     data-target="#avvisoModal">Aggiungi avviso</button>
+            </div>
+            <div class="col text-center">
+                <img th:src="@{/img/albero.jpg}" alt="">
+            </div>
+            <div class="col">
+                <div id="avvisi" class="card mb-3">
+                    <div class="card-header">
+                        <h5>News:</h5>
+                    </div>
+                    <div class="card-body">
+                        <div th:each=" notizia : ${news}" class="mb-3">
+                            <h5 class="card-title" th:text="${notizia.oggetto}"></h5>
+                            <h6 class="card-subtitle text-muted" th:text="${notizia.data} + ' da: ' + ${notizia.autore.username}"></h6>
+                            <p class="card-text" th:text="${notizia.body}"></p>
+                            <form th:action="@{/admin/delNews}" id="formDelNews">
+                                <input type="hidden" name="id" th:value="${notizia.id}">
+                                <button onclick="conferma(event)" class="btn btn-danger">&times;</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <button sec:authorize="hasAuthority('ADMIN')" class="btn btn-primary" data-toggle="modal"
+                    data-target="#newsModal">Aggiungi news</button>
             </div>
         </div>
     </div>
@@ -42,7 +69,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="avvisoModalLabel">Modal title</h5>
+                        <h5 class="modal-title" id="avvisoModalLabel">Nuovo avviso</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -68,13 +95,50 @@
         </div>
     </div>
 
-
+    <div sec:authorize="hasAuthority('ADMIN')">
+        <!-- Il modal viene aggiunto alla pagina solo se l'utente è loggato ed è admin -->
+        <div class="modal fade" id="newsModal" tabindex="-1" role="dialog" aria-labelledby="newsModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="newsModalLabel">Nuova news</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="newsForm" th:action="@{/admin/addNews}" method="POST">
+                            <div class="form-group">
+                                <label for="oggetto">Oggetto:</label>
+                                <input class="form-control" type="text" id="oggetto" name="oggetto">
+                            </div>
+                            <div class="form-group">
+                                <label for="avviso">Testo avviso</label>
+                                <textarea class="form-control long-text-area" id="news" name="news"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+                        <button type="submit" form="newsForm" class="btn btn-primary">Salva</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <script sec:authorize="hasAuthority('USER')" th:src="@{/js/check-script.js}"></script>
     <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
     <script th:src="@{/js/script.js}"></script>
+    <script>
+        function conferma(e){
+            if(!confirm("sei sicuro?"))
+                e.preventDefault();
+        }
+    </script>
 </body>
 
 </html>

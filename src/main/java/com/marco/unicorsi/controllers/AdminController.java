@@ -1,9 +1,13 @@
 package com.marco.unicorsi.controllers;
 
+import java.security.Principal;
+
 import com.marco.unicorsi.model.Insegnamento;
+import com.marco.unicorsi.model.News;
 import com.marco.unicorsi.model.Professore;
 import com.marco.unicorsi.model.User;
 import com.marco.unicorsi.repository.InsRepo;
+import com.marco.unicorsi.repository.NewsRepo;
 import com.marco.unicorsi.repository.ProfRepo;
 import com.marco.unicorsi.repository.UserRepo;
 import com.marco.unicorsi.service.UserService;
@@ -35,6 +39,9 @@ public class AdminController{
 
     @Autowired
     InsRepo insRepo;
+
+    @Autowired
+    NewsRepo newsRepo;
 
     private ModelAndView mViewGlobal = new ModelAndView();
 
@@ -155,6 +162,22 @@ public class AdminController{
             model.addAttribute("errMsg", "Errore! " + e.getMessage());
         }
         return "admin/admin-home";
+    }
+
+    @PostMapping(value = "/addNews")
+    public String addAvviso(Principal principal, String oggetto, String news){
+        News newsNuova = new News();
+        newsNuova.setOggetto(oggetto);
+        newsNuova.setBody(news);
+        newsNuova.setAutore(userRepo.findByUsername(principal.getName()));
+        newsRepo.save(newsNuova);
+        return "redirect:/index";
+    }
+
+    @GetMapping(value = "/delNews")
+    public String deleteAvviso(Principal principal, int id){
+        newsRepo.deleteById(id);
+        return "redirect:/index";
     }
 
     /* Se lo user è anche un docente deve avere i campi nome, cognome e mail non vuoti */

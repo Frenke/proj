@@ -33,3 +33,6 @@ build/
 ### Application properties ###
 src/main/resources/application.properties
 pom.xml
+src/main/resources/cert.jks
+src/main/resources/public.pub
+src/main/resources/private.key

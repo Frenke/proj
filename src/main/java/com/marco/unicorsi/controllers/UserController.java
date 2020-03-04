@@ -171,6 +171,18 @@ public class UserController{
         return "redirect:/index";
     }
 
+    @GetMapping(value = "/delAvviso")
+    public String deleteAvviso(Principal principal, int id){
+        User requesting = userRepo.findByUsername(principal.getName());
+        Avvisi toDel = avvisiRepo.getOne(id);
+        //Solo l'autore del post può cancellarlo
+        if(requesting.getIdUser() == toDel.getAutore().getIdUser()){
+            avvisiRepo.deleteById(id);
+        } 
+        return "redirect:/index";
+    }
+
+    
 
     //Controlla se chi sta eseguendo la richiesta è titolare del corso
     private boolean isOwner(Principal principal, Corso corso){
