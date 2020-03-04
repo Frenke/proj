@@ -26,7 +26,7 @@
                             <h5 class="card-title" th:text="${avviso.oggetto}"></h5>
                             <h6 class="card-subtitle text-muted" th:text="${avviso.data} + ' da: ' + ${avviso.autore.username}"></h6>
                             <p class="card-text" th:text="${avviso.body}"></p>
-                            <form th:action="@{/user/delAvviso}">
+                            <form sec:authorize="hasAuthority('USER')" th:action="@{/user/delAvviso}">
                                 <input type="hidden" name="id" th:value="${avviso.id}">
                                 <button onclick="conferma(event)" class="btn btn-danger">&times;</button>
                             </form>
@@ -49,7 +49,7 @@
                             <h5 class="card-title" th:text="${notizia.oggetto}"></h5>
                             <h6 class="card-subtitle text-muted" th:text="${notizia.data} + ' da: ' + ${notizia.autore.username}"></h6>
                             <p class="card-text" th:text="${notizia.body}"></p>
-                            <form th:action="@{/admin/delNews}" id="formDelNews">
+                            <form sec:authorize="hasAuthority('ADMIN')" th:action="@{/admin/delNews}" id="formDelNews">
                                 <input type="hidden" name="id" th:value="${notizia.id}">
                                 <button onclick="conferma(event)" class="btn btn-danger">&times;</button>
                             </form>
